@@ -14,8 +14,11 @@
       <div id="pandas" style="width: 100%; height: 100%"></div>
       <py-script output="pandas">
 import pandas as pd
-df = pd.read_csv("./data-test/gini-index.csv")
-df
+from pyodide.http import open_url
+
+url = "https://raw.githubusercontent.com/anarinsk/test_pyscript/main/data-test/gini-index.csv"
+df = pd.read_csv(open_url(url))
+df.head(20)
       </py-script>
     </body>
 </html>
