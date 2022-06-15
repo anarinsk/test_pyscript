@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PyScript REPL</title>
+  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  <py-env>
+    - numpy
+    - scipy
+  </py-env>
+</head>
+<body>
+  <py-repl>
+import numpy as np
+from scipy.linalg import eig 
+  </py-repl>
+  <py-repl>
+def mat(k, q):
+    return np.array([
+        [0.68 - k, 0.06 - k, 0.01 - k,   0,                 0,   q],   # H1
+        [0.28 - k, 0.74 - k, 0.14 - k, 0.01 - k,            0,   q],   # H2
+        [0.04 - k, 0.18 - k, 0.63 - k, 0.12 - k,     0.01 - k,   q],   # M1
+        [       0, 0.01 - k, 0.20 - k, 0.71 - k,     0.18 - k,   q],   # M2
+        [       0, 0.01 - k, 0.02 - k, 0.16 - k,     0.62 - k,   q],   # L
+        [     3*k,      5*k,      5*k,      4*k,   0.20 + 3*k, 1-5*q]  # Exit
+    ])
+
+def derive_stable_dist(k=0, q=0.02, atol=10e-3): 
+    M = mat(k, q)
+    evals, evecs = np.linalg.eig(M)
+    evec1 = evecs[:,np.isclose(evals, 1, atol=atol)]
+    sd = evec1.real
+    return sd / sd.sum()
+  </py-repl>
+  <py-repl>
+derive_stable_dist()    
+  </py-repl>
+  <py-repl>
+  </py-repl>
+</body>
+</html>
