@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Stlite App</title>
+</head>
+<body>
+  <script src="https://whitphx.github.io/stlite/lib/application/stlite.js" ></script>
+  <py-env>
+    - matplotlib
+    - numpy
+    - pandas 
+    - paths:
+        - data/penguins_size.csv
+  </py-env>
+  <script>
+    stlite.mount({
+      mainScriptData: `
+url = "https://raw.githubusercontent.com/anarinsk/test_pyscript/main/data-test/gini-index.csv"
+import streamlit as st
+import pandas as pd
+from pyodide.http import open_url
+name = st.text_input("Name")
+st.write("Hello, ", name or "world")
+#df = pd.read_csv("penguins_size.csv")
+pd.read_csv(url)
+`
+    })
+  </script>
+</body>
+</html>
